@@ -5,7 +5,7 @@ const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Memorial Repo</Text>
-      <Button title="Start" onPress={() => navigation.navigate('Onboarding1')} />
+      <Button title="Start" onPress={() => navigation.navigate('Onboarding')} />
     </View>
   );
 };

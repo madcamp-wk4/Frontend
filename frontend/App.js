@@ -58,9 +58,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Import Screens
 import SplashScreen from './opening/splash.js';
-import Onboarding1 from './opening/page1.js';
-import Onboarding2 from './opening/page2.js';
-import Onboarding3 from './opening/page3.js';
+import Onboarding from './opening/OnBoarding.js';
 import Login from './opening/Login.js';
 import Signup from './opening/signup.js';
 import MainHome from './home/mainHome.js';
@@ -71,19 +69,17 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer s>
       <Stack.Navigator initialRouteName="SplashScreen"
         screenOptions={{
           headerShown: false, // 모든 화면에 header를 숨김
         }}>
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
-        <Stack.Screen name="Onboarding1" component={Onboarding1} />
-        <Stack.Screen name="Onboarding2" component={Onboarding2} />
-        <Stack.Screen name="Onboarding3" component={Onboarding3} />
-        <Stack.Screen name="Login" component={Login}  options={{ headerShown: true }}/>
-        <Stack.Screen name="SignUp" component={Signup}  options={{ headerShown: true }} />
-        <Stack.Screen name="mainHome" component={MainHome}  options={{ headerShown: true }} />
-        <Stack.Screen name="createdAccount" component={CreatedAccount}  options={{ headerShown: true}} />
+        <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="SignUp" component={Signup}  />
+        <Stack.Screen name="mainHome" component={MainHome}   />
+        <Stack.Screen name="createdAccount" component={CreatedAccount}  />
       </Stack.Navigator>
     </NavigationContainer>
   );
