@@ -6,7 +6,7 @@ const Onboarding2 = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
         
-        <Button title="Next" onPress={() => navigation.navigate('Onboarding2')} />
+        <Button title="Next" onPress={() => navigation.navigate('Onboarding3')} />
         <Button title="Skip" onPress={() => navigation.navigate('Login')} />
         <Image source={require('../assets/flowers.png')} style={styles.image} />
       </View>

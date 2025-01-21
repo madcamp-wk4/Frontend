@@ -60,9 +60,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from './opening/splash.js';
 import Onboarding1 from './opening/page1.js';
 import Onboarding2 from './opening/page2.js';
-import Onboarding3 from './opening/paeg3.js';
+import Onboarding3 from './opening/page3.js';
 import Login from './opening/Login.js';
 import Signup from './opening/signup.js';
+import MainHome from './home/mainHome.js';
+import CreatedAccount from './opening/createdAccount.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -80,7 +82,8 @@ export default function App() {
         <Stack.Screen name="Onboarding3" component={Onboarding3} />
         <Stack.Screen name="Login" component={Login}  options={{ headerShown: true }}/>
         <Stack.Screen name="SignUp" component={Signup}  options={{ headerShown: true }} />
-        <Stack.Screen name="Home" component={Signup}  options={{ headerShown: true }} />
+        <Stack.Screen name="mainHome" component={MainHome}  options={{ headerShown: true }} />
+        <Stack.Screen name="createdAccount" component={CreatedAccount}  options={{ headerShown: true}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
