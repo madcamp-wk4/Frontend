@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from "rea
 const MainHome = ({ navigation }) => {
   // ID와 해당 화면 매핑
   const cardScreens = {
-    1: "dateRecord",   // ID 1 -> DateRecord.js
-    2: "getDateScore",     // ID 2 -> GetScore.js
+    1: "chatting",   // ID 1 -> DateRecord.js
+    2: "grading",     // ID 2 -> GetScore.js
     3: "loverProfile", // ID 3 -> CompareGoals.js
     4: "myProfile",    // ID 4 -> TimerPage.js
   };
