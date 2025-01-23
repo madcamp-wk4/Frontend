@@ -52,7 +52,7 @@ const BottomNavBar = () => {
         <View style={styles.centerButtonWrapper}>
           <TouchableOpacity
             style={styles.centerButton}
-            onPress={() => navigation.navigate("calendar")}
+            onPress={() => navigation.navigate("mainHome")}
           >
             <SvgXml xml={calendarIcon} width={30} height={30} />
           </TouchableOpacity>
@@ -75,21 +75,21 @@ const BottomNavBar = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate("profile")}
+              onPress={() => navigation.navigate("loverProfile")}
             >
               <SvgXml xml={profileIcon} width={24} height={24} />
               <Text style={styles.label}>애인 프로필</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate("dateHistory")}
+              onPress={() => navigation.navigate("chatting")}
             >
               <SvgXml xml={chatIcon} width={24} height={24} />
               <Text style={styles.label}>데이트 기록</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate("myPage")}
+              onPress={() => navigation.navigate("myProfile")}
             >
               <SvgXml xml={myPageIcon} width={24} height={24} />
               <Text style={styles.label}>마이페이지</Text>

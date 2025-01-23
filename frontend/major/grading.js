@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import BottomNavBar from "./bottombar";
 import {
   View,
   Text,
@@ -106,7 +107,6 @@ const Grading = () => {
               style={styles.itemContainer}
               onPress={() => handleGrading(item.id)} // 아이템 클릭 시 채점 요청
             >
-              <Image source={item.image} style={styles.itemImage} />
               <View style={styles.itemContent}>
                 <View style={styles.itemHeader}>
                   <Text style={styles.itemCategory}>{item.category}</Text>
@@ -171,6 +171,7 @@ const Grading = () => {
           </View>
         </View>
       </Modal>
+      <BottomNavBar/>
     </View>
   );
 };
