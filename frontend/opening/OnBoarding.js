@@ -72,7 +72,7 @@ const Onboarding = ({ navigation }) => {
       {/* Skip/Next Button */}
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('mainHome')}
+        onPress={() => navigation.navigate('Login')}
       >
         <Text style={styles.buttonText}>
           {currentIndex === slides.length - 1 ? '시작하기' : 'Skip'}
