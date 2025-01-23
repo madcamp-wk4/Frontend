@@ -30,20 +30,24 @@ const MainHome = ({ navigation }) => {
   ];
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.menuIcon}>≡</Text>
-      </View>
-      {cards.map((card) => (
-        <TouchableOpacity
-          key={card.id}
-          style={styles.card}
-          onPress={() => navigation.navigate(cardScreens[card.id])} 
-        >
-          <Image source={card.image} style={styles.image} />
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+    <View style={styles.container}>
+      {/* Scrollable content */}
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        <View style={styles.header}>
+          <Text style={styles.menuIcon}>≡</Text>
+        </View>
+        {cards.map((card) => (
+          <TouchableOpacity
+            key={card.id}
+            style={styles.card}
+            onPress={() => navigation.navigate(cardScreens[card.id])}
+          >
+            <Image source={card.image} style={styles.image} />
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      {/* Fixed Bottom Navigation Bar */}
+    </View>
   );
 };
 

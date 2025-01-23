@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import BottomNavBar from "./bottombar";
 import {
   View,
   Text,
@@ -102,16 +103,22 @@ const Chatting = () => {
   };
 
   const pickImageForItem = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const imageUri = result.assets[0].uri;
-      setNewItem((prev) => ({ ...prev, image: imageUri }));
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      if (!result.canceled) {
+        const imageUri = result.assets[0].uri;
+        setNewItem((prev) => ({ ...prev, image: imageUri })); // 이미지를 상태에 업데이트
+        console.log("Selected image URI:", imageUri); // 디버깅용 로그
+      }
+    } catch (error) {
+      console.error("Error picking image:", error.message);
+      alert("이미지 선택 중 문제가 발생했습니다.");
     }
   };
 
@@ -151,7 +158,8 @@ const Chatting = () => {
         renderItem={({ item }) => (
           <Swipeable renderRightActions={() => renderRightActions(item.id)}>
             <View style={styles.itemContainer}>
-              <TouchableOpacity onPress={() => pickImageForItem(item.id)}>
+              {/* 이미지 클릭 시 pickImageForItem 호출 */}
+              <TouchableOpacity onPress={pickImageForItem}>
                 <Image
                   source={item.image ? { uri: item.image } : require("../assets/icon.png")}
                   style={styles.itemImage}
@@ -230,6 +238,7 @@ const Chatting = () => {
           </View>
         </View>
       </Modal>
+      <BottomNavBar />
     </View>
   );
 };
@@ -321,7 +330,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     position: "absolute",
-    bottom: 30,
+    bottom: 90,
     right: 30,
     backgroundColor: "#281AC8",
     width: 60,

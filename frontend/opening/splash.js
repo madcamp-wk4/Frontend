@@ -1,21 +1,22 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Image, Text, Button, StyleSheet,TouchableOpacity } from 'react-native';
 
 const SplashScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Memorial Repo</Text>
-      <Button title="Start" onPress={() => navigation.navigate('Onboarding')} />
-    </View>
+    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Onboarding')} > 
+      <Image source={require('../assets/splash-final.png') }></Image>
+      {/* // <Button title="Start" }  */}
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
+    width : 388,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FF6',
+
   },
   text: {
     fontSize: 24,
