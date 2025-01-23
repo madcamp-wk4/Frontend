@@ -20,7 +20,8 @@ const SignupScreen = ({navigation}) => {
           <Image source={require('../assets/profile_init.png')} style={styles.profileImage} />
         </TouchableOpacity>
         <Text style={styles.profileText}>
-          현 애인의 생일을 비밀번호로 하지 마세요! 저도 이 사실을 알고 있지 않겠습니까..
+          현 애인의 생일을 비밀번호로 하지 마세요!
+          저도 이 사실을 알고 싶지 않았습니다..
         </Text>
       </View>
 
