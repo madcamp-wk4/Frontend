@@ -1,57 +1,3 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { StyleSheet, Text, View } from 'react-native';
-// import { useState, useEffect } from 'react';
-// import Guide1 from './opening/page1'
-
-// export default function App() {
-//   const [splashVisible, setSplashVisible] = useState(true)
-
-//   useEffect(() => {
-//     const timer = setTimeout(() => {
-//       setSplashVisible(false);
-//     }, 2000)
-//     return () => clearTimeout(timer)
-    
-//   }, []);
-
-//   if (splashVisible) {
-//     return (
-//       <View style={styles.splashContainer}>
-//         <Text style={styles.splashText}>Splash Screen</Text>
-//       </View>
-//     );
-//   }
-
-//   return <Guide1/>
-
-//   // return (
-//   //   <View style={styles.container}>
-//   //     <Text>Open up App.js to start working on your app!</Text>
-//   //     <StatusBar style="auto" />
-//   //   </View>
-//   // );
-// }
-
-// const styles = StyleSheet.create({
-//   splashContainer: {
-//     flex: 1,
-//     backgroundColor: '#4CAF50', // 원하는 색상
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   splashText: {
-//     fontSize: 24,
-//     color: '#fff',
-//     fontWeight : 'bold'},
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
-
-
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -63,6 +9,10 @@ import Login from './opening/Login.js';
 import Signup from './opening/signup.js';
 import MainHome from './home/mainHome.js';
 import CreatedAccount from './opening/createdAccount.js';
+import MyProfile from './home/myProfile.js';
+import DateRecord from './home/dateRecord.js';
+import GetDateScore from './home/getDateScore.js';
+import LoverProfile from './home/loverProfile.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -80,6 +30,10 @@ export default function App() {
         <Stack.Screen name="SignUp" component={Signup}  />
         <Stack.Screen name="mainHome" component={MainHome}   />
         <Stack.Screen name="createdAccount" component={CreatedAccount}  />
+        <Stack.Screen name="myProfile" component={MyProfile}  />
+        <Stack.Screen name="dateRecord" component={DateRecord}  />
+        <Stack.Screen name="getDateScore" component={GetDateScore}  />
+        <Stack.Screen name="loverProfile" component={LoverProfile}  />
       </Stack.Navigator>
     </NavigationContainer>
   );
