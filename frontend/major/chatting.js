@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import BottomNavBar from "./bottombar";
 import {
   View,
   Text,
@@ -29,18 +30,23 @@ const Chatting = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/dateRecords"); // 서버 IP 사용
-      const formattedData = response.data.map((item) => ({
-        id: item.recordId.toString(),
-        title: item.summarize,
-        category: item.location,
-        date: item.date.split("T")[0], // "YYYY-MM-DD" 포맷으로 변환
-        description: item.activity,
+      const response = await axios.get("http://143.248.197.200:3000/date-records");
+
+      // 데이터가 배열인지 확인하고 안전하게 처리
+      const records = Array.isArray(response.data) ? response.data : [];
+      const formattedData = records.map((item) => ({
+        id: item.recordId?.toString() || "0",
+        title: item.summarize || "Untitled",
+        category: item.location || "Unknown",
+        date: item.date?.split("T")[0] || "N/A",
+        description: item.activity || "",
         image: item.image_url || null,
+        messages: item.Message || [], // 메시지 포함
       }));
       setData(formattedData);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error.message);
+      alert("데이터를 가져오는 중 오류가 발생했습니다.");
     }
   };
 
@@ -56,29 +62,31 @@ const Chatting = () => {
       newItem.description.trim()
     ) {
       try {
-        const response = await axios.post("http://localhost:3000/dateRecords", {
-          summarize: newItem.title,
-          location: newItem.category,
-          date: newItem.date,
-          activity: newItem.description,
-          image_url: newItem.image,
+        const response = await axios.post("http://143.248.197.200:3000/date-records", {
+          userId: 1, // 현재 로그인된 사용자 ID
+          summarize: newItem.title, // 제목
+          location: newItem.category, // 카테고리
+          date: new Date(newItem.date).toISOString(), // ISO 형식으로 날짜 변환
+          activity: newItem.description, // 설명
+          image_url: newItem.image || null, // 이미지 URL
+          messages: [],
         });
 
-        setData((prev) => [
-          ...prev,
-          {
-            id: response.data.recordId.toString(),
-            title: newItem.title,
-            category: newItem.category,
-            date: newItem.date,
-            description: newItem.description,
-            image: newItem.image,
-          },
-        ]);
+        const addedRecord = {
+          id: response.data?.data?.recordId?.toString() || "0",
+          title: newItem.title,
+          category: newItem.category,
+          date: newItem.date,
+          description: newItem.description,
+          image: newItem.image,
+        };
+
+        setData((prev) => [...prev, addedRecord]);
         setNewItem({ title: "", category: "", date: "", description: "", image: null });
         setModalVisible(false);
       } catch (error) {
-        console.error("Error adding item:", error);
+        console.error("Error adding item:", error.response?.data || error.message);
+        alert("새 데이트 기록을 추가하는 중 문제가 발생했습니다.");
       }
     } else {
       alert("모든 필드를 채워주세요!");
@@ -87,33 +95,35 @@ const Chatting = () => {
 
   const deleteItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/dateRecords/${id}`);
+      await axios.delete(`http://143.248.197.200:3000/date-records/${id}`);
       setData((prev) => prev.filter((item) => item.id !== id));
     } catch (error) {
-      console.error("Error deleting item:", error);
+      console.error("Error deleting item:", error.message);
     }
   };
 
-  const pickImageForItem = async (id) => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const imageUri = result.assets[0].uri;
-      setData((prev) =>
-        prev.map((item) =>
-          item.id === id ? { ...item, image: imageUri } : item
-        )
-      );
+  const pickImageForItem = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      if (!result.canceled) {
+        const imageUri = result.assets[0].uri;
+        setNewItem((prev) => ({ ...prev, image: imageUri })); // 이미지를 상태에 업데이트
+        console.log("Selected image URI:", imageUri); // 디버깅용 로그
+      }
+    } catch (error) {
+      console.error("Error picking image:", error.message);
+      alert("이미지 선택 중 문제가 발생했습니다.");
     }
   };
 
   const filteredData = data.filter((item) =>
-    item.title.includes(searchText)
+    item.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const renderRightActions = (id) => (
@@ -127,12 +137,10 @@ const Chatting = () => {
 
   return (
     <View style={styles.container}>
-      {/* 제목과 메뉴 */}
       <View style={styles.header}>
         <Text style={styles.title}>데이트 기록</Text>
       </View>
 
-      {/* 검색창 */}
       <View style={styles.searchBar}>
         <TextInput
           style={styles.searchInput}
@@ -143,7 +151,6 @@ const Chatting = () => {
         />
       </View>
 
-      {/* 리스트 */}
       <FlatList
         contentContainerStyle={{ paddingBottom: 100 }}
         data={filteredData}
@@ -151,18 +158,13 @@ const Chatting = () => {
         renderItem={({ item }) => (
           <Swipeable renderRightActions={() => renderRightActions(item.id)}>
             <View style={styles.itemContainer}>
-              {/* 이미지 클릭 */}
-              <TouchableOpacity onPress={() => pickImageForItem(item.id)}>
+              {/* 이미지 클릭 시 pickImageForItem 호출 */}
+              <TouchableOpacity onPress={pickImageForItem}>
                 <Image
-                  source={
-                    item.image
-                      ? { uri: item.image }
-                      : require("../assets/icon.png")
-                  }
+                  source={item.image ? { uri: item.image } : require("../assets/icon.png")}
                   style={styles.itemImage}
                 />
               </TouchableOpacity>
-              {/* 리스트의 나머지 부분 클릭 시 ChatRoom 이동 */}
               <TouchableOpacity
                 style={styles.itemContent}
                 onPress={() => navigation.navigate("chatroom", { item })}
@@ -179,7 +181,6 @@ const Chatting = () => {
         )}
       />
 
-      {/* 추가 버튼 */}
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => setModalVisible(true)}
@@ -187,7 +188,6 @@ const Chatting = () => {
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
 
-      {/* 모달 */}
       <Modal visible={modalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -200,7 +200,7 @@ const Chatting = () => {
             />
             <TextInput
               style={styles.input}
-              placeholder="카테고리"
+              placeholder="위치"
               value={newItem.category}
               onChangeText={(text) => setNewItem({ ...newItem, category: text })}
             />
@@ -238,6 +238,7 @@ const Chatting = () => {
           </View>
         </View>
       </Modal>
+      <BottomNavBar />
     </View>
   );
 };
@@ -329,7 +330,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     position: "absolute",
-    bottom: 30,
+    bottom: 90,
     right: 30,
     backgroundColor: "#281AC8",
     width: 60,
