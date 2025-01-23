@@ -9,7 +9,7 @@ const SignupScreen = ({navigation}) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('SignUp')}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.backText}>이전</Text>
         </TouchableOpacity>
       </View>
